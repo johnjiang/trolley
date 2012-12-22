@@ -22,17 +22,17 @@ class WooliesSpider(BaseSpider):
         soup = BeautifulSoup(response.body, 'lxml')
         page_links = soup.select(".page-number") # situation when there's only 1 page of items
         if page_links:
-            for page_num in xrange(1,int(page_links[-1].text) + 1):
+            # we start on the second page because we're already on the first page
+            for page_num in xrange(2,int(page_links[-1].text) + 1):
                 yield Request("%s&page=%s" % (response.url, page_num), callback=self.parse_page)
-        else:
-            yield Request("%s" % response.url, callback=self.parse_page)
+        yield self.parse_page(response)
 
     def parse_page(self, response):
         soup = BeautifulSoup(response.body, 'lxml')
-        sites = soup.select('div.product-stamp-middle')
-        for site in sites:
+        products = soup.select('div.product-stamp-middle')
+        for product in products:
             item = ShopItem()
-            item['name'] = site.select('div.details-container span.description')[0].text.strip()
-            item['price'] = site.select('div.price-container span.price')[0].text.strip()
-            item['extra_info'] = site.select('div.price-container div.cup-price')[0].text.strip()
+            item['name'] = product.select('div.details-container span.description')[0].text.strip()
+            item['price'] = product.select('div.price-container span.price')[0].text.strip()
+            item['extra_info'] = product.select('div.price-container div.cup-price')[0].text.strip()
             yield item
