@@ -5,6 +5,7 @@ from scrapy.http import Request
 from scrapy.spider import BaseSpider
 from trolley.items import ShopItem
 
+
 class WooliesSpider(BaseSpider):
     name = "woolies"
 
@@ -20,10 +21,10 @@ class WooliesSpider(BaseSpider):
 
     def parse_department(self, response):
         soup = BeautifulSoup(response.body, 'lxml')
-        page_links = soup.select(".page-number") # situation when there's only 1 page of items
+        page_links = soup.select(".page-number")  # situation when there's only 1 page of items
         if page_links:
             # we start on the second page because we're already on the first page
-            for page_num in xrange(2,int(page_links[-1].text) + 1):
+            for page_num in xrange(2, int(page_links[-1].text) + 1):
                 yield Request("%s&page=%s" % (response.url, page_num), callback=self.parse_page)
         yield self.parse_page(response)
 
