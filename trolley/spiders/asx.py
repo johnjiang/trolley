@@ -1,5 +1,5 @@
 from __future__ import unicode_literals
-from bisect import bisect_left, bisect_right
+from bisect import bisect_right
 import string
 
 from bs4 import BeautifulSoup
