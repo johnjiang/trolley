@@ -10,5 +10,6 @@ class ShopItem(Item):
 
 class CompanyItem(Item):
     name = Field()
+    code = Field()
     price = Field()
     category = Field()
