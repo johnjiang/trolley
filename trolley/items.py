@@ -1,4 +1,5 @@
 from __future__ import unicode_literals
+
 from scrapy.item import Item, Field
 
 
@@ -12,4 +13,10 @@ class CompanyItem(Item):
     name = Field()
     code = Field()
     price = Field()
-    category = Field()
+    change = Field()
+    bid = Field()
+    offer = Field()
+    open = Field()
+    high = Field()
+    low = Field()
+    vol = Field()

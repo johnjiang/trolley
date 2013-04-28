@@ -1,5 +1,4 @@
 from __future__ import unicode_literals
-from bisect import bisect_right
 import string
 
 from bs4 import BeautifulSoup
@@ -8,8 +7,25 @@ from scrapy.http import Request
 from scrapy.spider import BaseSpider
 from trolley.items import CompanyItem
 
+LAST_ID = 0
+CHANGE_ID = 1
+BID_ID = 2
+OFFER_ID = 3
+OPEN_ID = 4
+HIGH_ID = 5
+LOW_ID = 6
+VOL_ID = 7
 
-CATEGORIES = [0, 0.002, 0.004, 0.008, 0.01, 0.04, 0.15, 0.69, 0.89]
+COLUMN_MAPPER = {
+    "price": LAST_ID,
+    "change": CHANGE_ID,
+    "bid": BID_ID,
+    "offer": OFFER_ID,
+    "open": OPEN_ID,
+    "high": HIGH_ID,
+    "low": LOW_ID,
+    "vol": VOL_ID
+}
 
 
 def urls():
@@ -19,21 +35,18 @@ def urls():
         yield base_url.format(c)
 
 
-def find_category(categories, price):
-    index = bisect_right(categories, price) - 1
-
-    # sanity checks
-    assert categories[index] <= price
-    if len(categories) != index + 1:
-        assert price < categories[index + 1]
-    return categories[index]
-
-
 class AsxSpider(BaseSpider):
     name = "asx"
 
     allowed_domains = ["asx.com.au"]
     start_urls = list(urls())
+
+    def get_num(self, field):
+        field = field.replace("%", "").replace(",", "")
+        try:
+            return float(field or 0)
+        except ValueError:
+            return 0
 
     def parse(self, response):
         soup = BeautifulSoup(response.body, 'lxml')
@@ -52,14 +65,8 @@ class AsxSpider(BaseSpider):
             log.msg("No datatable for: {}".format(asx_code), level=log.ERROR)
             item['price'] = 0
         else:
-            try:
-                datatable = datatables[0]
-                assert datatable.select('tr th.row')[0].text.strip() == asx_code  # sanity check
-                price = datatable.select('tr td.last')[0].text.strip()
-                item['price'] = float(price or 0)
-            except ValueError:
-                log.msg("Cannot interpret price for: {}".format(asx_code), level=log.ERROR)
-                item['price'] = 0
-
-        item["category"] = find_category(CATEGORIES, item['price'])
+            datatable = datatables[0]
+            assert datatable.select('tr th.row')[0].text.strip() == asx_code  # sanity check
+            for key, column_id in COLUMN_MAPPER.items():
+                item[key] = self.get_num(datatable.select('tr td')[column_id].text.strip())
         yield item
