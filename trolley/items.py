@@ -20,3 +20,16 @@ class CompanyItem(Item):
     high = Field()
     low = Field()
     vol = Field()
+
+
+class TrueLocalItem(Item):
+    url = Field()
+    name = Field()
+    street = Field()
+    suburb = Field()
+    state = Field()
+    local_phone = Field()
+    mobile_phone = Field()
+    fax_phone = Field()
+    website = Field()
+    email = Field()
