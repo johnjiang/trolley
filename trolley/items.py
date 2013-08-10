@@ -33,3 +33,8 @@ class TrueLocalItem(Item):
     fax_phone = Field()
     website = Field()
     email = Field()
+
+
+class AccommodationItem(Item):
+    name = Field()
+    email = Field()
