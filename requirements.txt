@@ -1,0 +1,5 @@
+scrapy
+beautifulsoup4
+
+# used for websites that load content dynamically using js
+selenium

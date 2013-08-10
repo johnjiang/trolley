@@ -12,3 +12,7 @@ Trolley is a collection of scrapers written using Scrapy, BeautifulSoup and lxml
 * True Local
 * Visit Victoria
 * Woolworths Online
+
+### Requirements
+* Check inside requirements.txt
+* PhantomJS (for certain parsers)
