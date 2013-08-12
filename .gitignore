@@ -34,3 +34,8 @@ nosetests.xml
 .project
 .pydevproject
 .idea/*
+
+# Trolley Specific
+*.csv
+*.json
+*.log
