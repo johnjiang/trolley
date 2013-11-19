@@ -37,4 +37,6 @@ def scrape():
         for p in open("postcodes.txt").readlines():
             print_stuff(file, link, p.strip())
 
-scrape()
+
+if __name__ == "__main__":
+    scrape()

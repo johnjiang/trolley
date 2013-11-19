@@ -232,6 +232,6 @@ def print_stuff(link):
             cells.append(td.get_text())
     print "\t".join(cells)
 
-
-for link in links:
-    print_stuff(link)
+if __name__ == "__main__":
+    for link in links:
+        print_stuff(link)

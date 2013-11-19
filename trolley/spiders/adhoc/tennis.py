@@ -47,8 +47,9 @@ def print_stuff(code, link=None):
             print_stuff(code, "http://www.tennis.com.au/" + a["href"])
 
 
-with codecs.open('results.txt', encoding='utf-8', mode="w") as file:
-    lines = [l.strip() for l in open("postcodes.txt", "rU").readlines()]
-    for l in lines:
-        print_stuff(l)
-        print l
+if __name__ == "__main__":
+    with codecs.open('results.txt', encoding='utf-8', mode="w") as file:
+        lines = [l.strip() for l in open("postcodes.txt", "rU").readlines()]
+        for l in lines:
+            print_stuff(l)
+            print l

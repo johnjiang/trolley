@@ -38,3 +38,8 @@ class TrueLocalItem(Item):
 class AccommodationItem(Item):
     name = Field()
     email = Field()
+
+
+class Klass(Item):
+    name = Field()
+    time = Field()

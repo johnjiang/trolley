@@ -38,6 +38,7 @@ def print_stuff(link):
         file.write(u"\n")
 
 
-with codecs.open('results.txt', encoding='utf-8', mode="w") as file:
-    for p in pages:
-        print_stuff(link + str(p))
+if __name__ == "__main__":
+    with codecs.open('results.txt', encoding='utf-8', mode="w") as file:
+        for p in pages:
+            print_stuff(link + str(p))

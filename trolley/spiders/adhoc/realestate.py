@@ -65,17 +65,17 @@ def find_emails(website):
                     except Exception:
                         continue
 
+if __name__ == "__main__":
+    lines = [line.strip() for line in (open("websites", "rU").readlines())]
 
-lines = [line.strip() for line in (open("websites", "rU").readlines())]
-
-pool = Pool(processes=10)
-it = pool.imap(find_emails, lines)
-results = []
-for _ in xrange(len(lines)):
-    try:
-        print it.next(timeout=10)
-    except:
-        print "timeout"
+    pool = Pool(processes=10)
+    it = pool.imap(find_emails, lines)
+    results = []
+    for _ in xrange(len(lines)):
+        try:
+            print it.next(timeout=10)
+        except:
+            print "timeout"
 
 
 def scrape():
