@@ -20,7 +20,11 @@ class WesternAustralia(BaseSpider):
         "http://www.westernaustralia.com/au/search/Pages/Accommodation_Search.aspx?&clas=Bed+and+Breakfasts%2c&cat=Accommodation&p=1&rpp=100&sort=Bookable&nadults=1",
     ]
 
-    driver = webdriver.PhantomJS()
+    @property
+    def driver(self):
+        if not hasattr(self, '_driver'):
+            self._driver = webdriver.PhantomJS()
+        return self._driver
 
     def parse(self, response):
         soup = BeautifulSoup(response.body, 'lxml')
