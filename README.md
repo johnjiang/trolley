@@ -9,6 +9,7 @@ Trolley is a collection of scrapers written using Scrapy, BeautifulSoup and lxml
 
 ### Current Scrapers
 * ASX Company Research
+* Coles Online
 * South Australia
 * True Local
 * Visit Victoria
