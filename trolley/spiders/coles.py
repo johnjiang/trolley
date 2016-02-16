@@ -24,7 +24,9 @@ class ColesSpider(BaseSpider):
         return self._driver
 
     def parse(self, response):
-        soup = BeautifulSoup(response.body, 'lxml')
+        body = response.body.decode('unicode_escape')  # remove unicode crap
+        body = body.replace("</html>", "")  # stupid coles has extra closing html tag
+        soup = BeautifulSoup(body, 'lxml')
         for aisle in soup.select('#aisleMenu li div ul li a'):
             yield Request(aisle["href"], callback=self.parse_aisle)
 
